@@ -17,6 +17,9 @@ const UnsupportedState = 'unsupported';
 const ErrorState = 'error';
 const preferredChannel = 'stable';
 
+// Set to false to follow upstream releases instead of the local fork's builds.
+const AUTO_UPDATE_DISABLED = true;
+
 export default class AutoUpdateManager extends EventEmitter {
   state = IdleState;
   version: string;
@@ -34,6 +37,12 @@ export default class AutoUpdateManager extends EventEmitter {
     this.config = config;
     this.specMode = specMode;
     this.preferredChannel = preferredChannel;
+
+    // Fork builds must never accept the vendor's update feed: an "update" would replace this
+    // binary with an official Mailspring release and silently drop every local patch.
+    if (AUTO_UPDATE_DISABLED && !specMode) {
+      return;
+    }
 
     this.updateFeedURL();
     this.config.onDidChange('identity.id', this.updateFeedURL);
@@ -163,6 +172,9 @@ export default class AutoUpdateManager extends EventEmitter {
   }
 
   check({ hidePopups }: { hidePopups?: boolean } = {}) {
+    if (AUTO_UPDATE_DISABLED && !this.specMode) {
+      return;
+    }
     this.updateFeedURL();
     if (!hidePopups) {
       autoUpdater.once('update-not-available', this.onUpdateNotAvailable);

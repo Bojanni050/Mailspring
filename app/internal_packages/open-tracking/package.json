@@ -3,18 +3,19 @@
   "main": "./lib/main",
   "version": "0.1.0",
   "serverUrl": {
-    "development": "http://localhost:5101",
-    "staging": "https://link-staging.getmailspring.com",
-    "production": "https://link.getmailspring.com"
+    "development": "http://127.0.0.1:5199",
+    "staging": "http://127.0.0.1:5199",
+    "production": "http://127.0.0.1:5199"
   },
-
   "title": "Open Tracking",
   "description": "Track when email messages have been opened by recipients.",
   "icon": "./icon.png",
   "isOptional": true,
-  "isIdentityRequired": true,
-  "supportedEnvs": ["development", "staging", "production"],
-
+  "supportedEnvs": [
+    "development",
+    "staging",
+    "production"
+  ],
   "repository": {
     "type": "git",
     "url": ""

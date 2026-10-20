@@ -84,7 +84,8 @@ class _IdentityStore extends MailspringStore {
   }
 
   hasProFeatures() {
-    return this._identity && this._identity.stripePlanEffective !== 'Basic';
+    // Fork: pro features are unlocked locally, there is no billing server behind this build.
+    return true;
   }
 
   _fetchAndPollRemoteIdentity() {
