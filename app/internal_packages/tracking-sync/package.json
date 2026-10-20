@@ -1,0 +1,18 @@
+{
+  "name": "tracking-sync",
+  "main": "./lib/main",
+  "version": "0.1.0",
+  "title": "Tracking Sync",
+  "description": "Polls a self-hosted tracking server and writes open/click counts back into message metadata.",
+  "isOptional": true,
+  "windowTypes": {
+    "default": true
+  },
+  "engines": {
+    "mailspring": "*"
+  },
+  "repository": {
+    "type": "git",
+    "url": ""
+  }
+}
