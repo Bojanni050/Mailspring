@@ -74,6 +74,7 @@
   },
   "scripts": {
     "postinstall": "node scripts/postinstall.js",
+    "fetch-mailsync": "node scripts/fetch-mailsync.js",
     "start": "electron ./app --enable-logging --dev",
     "build:fm-helper": "swift build -c release --arch arm64 --package-path app/native/mailspring-fm",
     "lint": "eslint --fix -c .eslintrc \"app/src/**/*.{ts,tsx}\" \"app/internal_packages/**/*.{ts,tsx}\"",
