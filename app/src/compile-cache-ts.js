@@ -37,9 +37,21 @@ function readCachedJavascript(relativeCachePath) {
 function writeCachedJavascript(relativeCachePath, code) {
   const cacheTmpPath = path.join(cacheDirectory, `${relativeCachePath}.${process.pid}`);
   const cachePath = path.join(cacheDirectory, relativeCachePath);
-  fs.mkdirSync(path.dirname(cacheTmpPath), { recursive: true });
-  fs.writeFileSync(cacheTmpPath, code, 'utf8');
-  fs.renameSync(cacheTmpPath, cachePath);
+  // The cache is an optimisation, never a requirement: if writing it fails, the freshly
+  // compiled code is still returned to the loader. On Windows the atomic rename is the
+  // fragile step — Defender, an editor or a second Electron window holding the destination
+  // makes it fail with EPERM/EACCES/ENOENT, which used to abort the module load itself.
+  try {
+    fs.mkdirSync(path.dirname(cachePath), { recursive: true });
+    fs.writeFileSync(cacheTmpPath, code, 'utf8');
+    fs.renameSync(cacheTmpPath, cachePath);
+  } catch (error) {
+    try {
+      fs.rmSync(cacheTmpPath, { force: true });
+    } catch {
+      /* nothing left to clean up */
+    }
+  }
 }
 
 function addSourceURL(jsCode, filePath) {
