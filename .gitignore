@@ -80,3 +80,7 @@ client_secret.json
 /test-results
 /playwright-report
 /playwright/test-results/
+app/package-lock.json
+package.json
+package.json
+app/package-lock.json
