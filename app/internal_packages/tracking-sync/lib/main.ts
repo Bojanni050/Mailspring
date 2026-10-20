@@ -17,7 +17,7 @@ import { Actions, DatabaseStore, Message, SyncbackMetadataTask } from 'mailsprin
 
 const OPEN_TRACKING = 'open-tracking';
 const LINK_TRACKING = 'link-tracking';
-const DEFAULT_BASE_URL = 'http://127.0.0.1:5199';
+const DEFAULT_BASE_URL = 'https://momo.studiovanderheide.nl';
 const POLL_INTERVAL_MS = 60 * 1000;
 
 type ClickData = { recipient: string; timestamp: number };
@@ -49,6 +49,13 @@ export function serialize() {}
 function baseUrl() {
   const fromEnv = process.env.MAILSPRING_TRACKING_URL;
   return (fromEnv || DEFAULT_BASE_URL).replace(/\/+$/, '');
+}
+
+/** Set on the tracking server as API_TOKEN; empty means /api/tracked is open. */
+function trackedUrl() {
+  const url = `${baseUrl()}/api/tracked`;
+  const token = process.env.MAILSPRING_TRACKING_TOKEN;
+  return token ? `${url}?token=${encodeURIComponent(token)}` : url;
 }
 
 function getJSON(url: string): Promise<any> {
@@ -134,7 +141,7 @@ export async function pollOnce() {
   if (inFlight) return;
   inFlight = true;
   try {
-    const payload = await getJSON(`${baseUrl()}/api/tracked`);
+    const payload = await getJSON(trackedUrl());
     const entries: ServerMessage[] = (payload && payload.messages) || [];
     for (const entry of entries) {
       const messages = await messagesFor(entry.messageId);

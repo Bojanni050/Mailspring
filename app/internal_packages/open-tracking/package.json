@@ -3,9 +3,9 @@
   "main": "./lib/main",
   "version": "0.1.0",
   "serverUrl": {
-    "development": "http://127.0.0.1:5199",
-    "staging": "http://127.0.0.1:5199",
-    "production": "http://127.0.0.1:5199"
+    "development": "https://momo.studiovanderheide.nl",
+    "staging": "https://momo.studiovanderheide.nl",
+    "production": "https://momo.studiovanderheide.nl"
   },
   "title": "Open Tracking",
   "description": "Track when email messages have been opened by recipients.",
