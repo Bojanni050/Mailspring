@@ -84,3 +84,6 @@ app/package-lock.json
 package.json
 package.json
 app/package-lock.json
+app/libetpan.pdb
+app/mailcore2.pdb
+app/mailsync.pdb
